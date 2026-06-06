@@ -14,6 +14,18 @@ export interface Product {
   category: string;
   sold: number;
   image: string;
+  barcode: string;
+}
+
+export interface Invoice {
+  id: string;
+  orderId: string;
+  customer: string;
+  date: string;
+  items: OrderItem[];
+  subtotal: number;
+  gst: number;
+  total: number;
 }
 
 export interface OrderItem {
