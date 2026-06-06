@@ -2,8 +2,8 @@ import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { QrCode, Barcode, AlertTriangle, PackagePlus, Check, X } from "lucide-react";
 import { PageHeader, Panel, StatCard } from "@/components/ui-bits";
-import { products as initialProducts, inr } from "@/lib/mock-data";
-import type { Product } from "@/lib/mock-data";
+import { inr } from "@/lib/mock-data";
+import { useStore, restock } from "@/lib/store";
 
 export const Route = createFileRoute("/inventory")({
   head: () => ({ meta: [{ title: "Inventory — Universal Ceramics" }] }),
@@ -11,9 +11,7 @@ export const Route = createFileRoute("/inventory")({
 });
 
 function Inventory() {
-  const [items, setItems] = useState<Product[]>(
-    initialProducts.map((p) => ({ ...p }))
-  );
+  const { products: items } = useStore();
   const [restocking, setRestocking] = useState<string | null>(null);
   const [restockQty, setRestockQty] = useState<string>("");
 
@@ -34,16 +32,14 @@ function Inventory() {
   function applyRestock(id: string) {
     const qty = parseInt(restockQty, 10);
     if (!qty || qty <= 0) return;
-    setItems((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, stock: p.stock + qty } : p))
-    );
+    restock(id, qty);
     setRestocking(null);
     setRestockQty("");
   }
 
   return (
     <div>
-      <PageHeader title="Inventory Management" subtitle="Real-time stock with reserved & available tracking" />
+      <PageHeader title="Inventory Management" subtitle="Real-time stock — auto-deducts when orders are created" />
 
       <div className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard label="Total Stock" value={`${totalStock} boxes`} accent />
@@ -54,7 +50,7 @@ function Inventory() {
 
       <Panel className="p-0">
         <div className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr_auto_auto] gap-4 border-b border-border px-6 py-3 text-xs uppercase tracking-wider text-muted-foreground">
-          <span>Product</span><span>Available</span><span>Reserved</span><span>Total</span><span>Value</span><span>Codes</span><span>Action</span>
+          <span>Product</span><span>Available</span><span>Reserved</span><span>Total</span><span>Value</span><span>Barcode</span><span>Action</span>
         </div>
         {items.map((p) => {
           const isLow = p.stock <= 30;
@@ -72,8 +68,12 @@ function Inventory() {
               <span className="text-muted-foreground">{p.reserved}</span>
               <span>{p.stock}</span>
               <span className="font-medium">{inr(p.stock * p.price)}</span>
-              <div className="flex gap-2 text-muted-foreground">
-                <Barcode className="h-4 w-4" /><QrCode className="h-4 w-4" />
+              <div className="flex flex-col items-start gap-1">
+                <div className="flex items-center gap-1.5 text-muted-foreground">
+                  <Barcode className="h-4 w-4" />
+                  <span className="font-mono text-xs tracking-wider text-foreground">{p.barcode}</span>
+                  <QrCode className="h-4 w-4" />
+                </div>
               </div>
               <div className="flex items-center gap-2">
                 {isRestocking ? (
