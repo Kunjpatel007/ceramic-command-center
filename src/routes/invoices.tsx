@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import { Printer, Download, RotateCcw } from "lucide-react";
 import { PageHeader, Panel } from "@/components/ui-bits";
-import { orders, inr } from "@/lib/mock-data";
+import { inr } from "@/lib/mock-data";
+import { useStore } from "@/lib/store";
 
 export const Route = createFileRoute("/invoices")({
   head: () => ({ meta: [{ title: "Invoices — Universal Ceramics" }] }),
@@ -9,24 +11,39 @@ export const Route = createFileRoute("/invoices")({
 });
 
 function Invoices() {
-  const o = orders[0];
-  const subtotal = o.items.reduce((s, i) => s + i.qtyBoxes * i.rate, 0);
-  const gst = Math.round(subtotal * 0.18);
+  const { invoices } = useStore();
+  const [selected, setSelected] = useState(0);
+  const o = invoices[selected] ?? invoices[0];
 
   return (
     <div>
       <PageHeader
         title="Invoice System"
-        subtitle="Professional GST invoices — generate, print & reprint"
+        subtitle="Auto-generated GST invoices — every new order creates one instantly"
         action={
           <div className="flex gap-2">
             <button className="flex items-center gap-2 rounded-xl border border-border px-4 py-2.5 text-sm hover:border-primary/50"><RotateCcw className="h-4 w-4" /> Reprint</button>
-            <button className="flex items-center gap-2 rounded-xl border border-border px-4 py-2.5 text-sm hover:border-primary/50"><Printer className="h-4 w-4" /> Print</button>
+            <button onClick={() => window.print()} className="flex items-center gap-2 rounded-xl border border-border px-4 py-2.5 text-sm hover:border-primary/50"><Printer className="h-4 w-4" /> Print</button>
             <button className="flex items-center gap-2 rounded-xl gold-gradient px-4 py-2.5 text-sm font-semibold text-primary-foreground"><Download className="h-4 w-4" /> PDF</button>
           </div>
         }
       />
 
+      <div className="mb-6 flex flex-wrap gap-2">
+        {invoices.map((iv, i) => (
+          <button
+            key={iv.id}
+            onClick={() => setSelected(i)}
+            className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${
+              i === selected ? "border-primary/40 bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            {iv.id} · {iv.customer}
+          </button>
+        ))}
+      </div>
+
+      {o && (
       <Panel className="mx-auto max-w-3xl bg-white p-10 text-black">
         <div className="flex items-start justify-between border-b-2 border-black pb-6">
           <div className="flex items-center gap-3">
@@ -48,9 +65,9 @@ function Invoices() {
             <div className="font-semibold">{o.customer}</div>
           </div>
           <div className="text-right">
-            <div>Invoice #: INV-9921</div>
-            <div>Order #: {o.id}</div>
-            <div>Date: {o.date} · 18:42</div>
+            <div>Invoice #: {o.id}</div>
+            <div>Order #: {o.orderId}</div>
+            <div>Date: {o.date}</div>
           </div>
         </div>
 
@@ -74,15 +91,16 @@ function Invoices() {
         </table>
 
         <div className="mt-4 ml-auto w-60 text-sm">
-          <div className="flex justify-between py-1"><span>Subtotal</span><span>{inr(subtotal)}</span></div>
-          <div className="flex justify-between py-1"><span>GST (18%)</span><span>{inr(gst)}</span></div>
-          <div className="mt-2 flex justify-between border-t-2 border-black pt-2 text-base font-bold"><span>Total</span><span>{inr(subtotal + gst)}</span></div>
+          <div className="flex justify-between py-1"><span>Subtotal</span><span>{inr(o.subtotal)}</span></div>
+          <div className="flex justify-between py-1"><span>GST (18%)</span><span>{inr(o.gst)}</span></div>
+          <div className="mt-2 flex justify-between border-t-2 border-black pt-2 text-base font-bold"><span>Total</span><span>{inr(o.total)}</span></div>
         </div>
 
         <div className="mt-10 border-t border-neutral-300 pt-4 text-center text-sm font-semibold tracking-wide">
           THANK YOU FOR CHOOSING UNIVERSAL CERAMICS
         </div>
       </Panel>
+      )}
     </div>
   );
 }
