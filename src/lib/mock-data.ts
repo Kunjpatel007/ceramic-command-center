@@ -57,12 +57,12 @@ export interface Customer {
 }
 
 export const products: Product[] = [
-  { id: "P-1001", name: "Royal White", size: "600x1200", finish: "Glossy", price: 1240, stock: 320, reserved: 40, category: "Floor", sold: 1820, image: "https://images.unsplash.com/photo-1615874959474-d609969a20ed?w=600&q=80" },
-  { id: "P-1002", name: "Premium Grey", size: "800x800", finish: "Matte", price: 980, stock: 28, reserved: 12, category: "Floor", sold: 1510, image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80" },
-  { id: "P-1003", name: "Marble Beige", size: "600x600", finish: "Polished", price: 1120, stock: 540, reserved: 60, category: "Wall", sold: 1340, image: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=600&q=80" },
-  { id: "P-1004", name: "Carrara Lux", size: "1200x2400", finish: "Glossy", price: 3450, stock: 14, reserved: 6, category: "Slab", sold: 760, image: "https://images.unsplash.com/photo-1597072689227-8882273e8f6a?w=600&q=80" },
-  { id: "P-1005", name: "Onyx Black", size: "600x1200", finish: "Matte", price: 1680, stock: 210, reserved: 25, category: "Wall", sold: 990, image: "https://images.unsplash.com/photo-1604709177225-055f99402ea3?w=600&q=80" },
-  { id: "P-1006", name: "Terra Sand", size: "300x600", finish: "Rustic", price: 640, stock: 8, reserved: 4, category: "Bathroom", sold: 540, image: "https://images.unsplash.com/photo-1556909212-d5b604d0c90d?w=600&q=80" },
+  { id: "P-1001", name: "Royal White", size: "600x1200", finish: "Glossy", price: 1240, stock: 320, reserved: 40, category: "Floor", sold: 1820, image: "https://images.unsplash.com/photo-1615874959474-d609969a20ed?w=600&q=80", barcode: "8901234010012" },
+  { id: "P-1002", name: "Premium Grey", size: "800x800", finish: "Matte", price: 980, stock: 28, reserved: 12, category: "Floor", sold: 1510, image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80", barcode: "8901234010029" },
+  { id: "P-1003", name: "Marble Beige", size: "600x600", finish: "Polished", price: 1120, stock: 540, reserved: 60, category: "Wall", sold: 1340, image: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=600&q=80", barcode: "8901234010036" },
+  { id: "P-1004", name: "Carrara Lux", size: "1200x2400", finish: "Glossy", price: 3450, stock: 14, reserved: 6, category: "Slab", sold: 760, image: "https://images.unsplash.com/photo-1597072689227-8882273e8f6a?w=600&q=80", barcode: "8901234010043" },
+  { id: "P-1005", name: "Onyx Black", size: "600x1200", finish: "Matte", price: 1680, stock: 210, reserved: 25, category: "Wall", sold: 990, image: "https://images.unsplash.com/photo-1604709177225-055f99402ea3?w=600&q=80", barcode: "8901234010050" },
+  { id: "P-1006", name: "Terra Sand", size: "300x600", finish: "Rustic", price: 640, stock: 8, reserved: 4, category: "Bathroom", sold: 540, image: "https://images.unsplash.com/photo-1556909212-d5b604d0c90d?w=600&q=80", barcode: "8901234010067" },
 ];
 
 export const customers: Customer[] = [
