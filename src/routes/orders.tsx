@@ -208,6 +208,8 @@ function NewOrderModal({
   onClose: () => void;
 }) {
   const [customer, setCustomer] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [address, setAddress] = useState("");
   const [lines, setLines] = useState<NewOrderItem[]>([{ productId: products[0]?.id ?? "", qtyBoxes: 0 }]);
   const [created, setCreated] = useState<{ orderId: string; invoiceId: string } | null>(null);
 
@@ -222,8 +224,11 @@ function NewOrderModal({
 
   function submit() {
     const picks = lines.filter((l) => l.productId && l.qtyBoxes > 0);
-    if (!customer.trim() || picks.length === 0) return;
-    const { order, invoice } = createOrder(customer.trim(), picks);
+    if (!customer.trim() || !mobile.trim() || picks.length === 0) return;
+    const { order, invoice } = createOrder(customer.trim(), picks, {
+      mobile: mobile.trim(),
+      address: address.trim(),
+    });
     setCreated({ orderId: order.id, invoiceId: invoice.id });
   }
 
