@@ -347,7 +347,7 @@ function NewOrderModal({
 
             <button
               onClick={submit}
-              disabled={!customer.trim() || total === 0}
+              disabled={!customer.trim() || !mobile.trim() || total === 0}
               className="w-full rounded-xl gold-gradient px-4 py-2.5 font-semibold text-primary-foreground disabled:opacity-40"
             >
               Create order & generate invoice
