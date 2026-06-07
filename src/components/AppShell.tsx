@@ -1,10 +1,11 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import {
   LayoutDashboard, ShoppingCart, Users, Boxes, BookImage, FileText,
-  Truck, BarChart3, Sparkles, Settings, Calculator, Bell, Search,
+  Truck, BarChart3, Sparkles, Settings, Calculator, Bell, Search, LogOut, ShieldAlert,
 } from "lucide-react";
 import type { ReactNode } from "react";
+import { useAuth } from "../lib/auth";
 
 const NAV = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard },
@@ -21,11 +22,24 @@ const NAV = [
 ] as const;
 
 export function AppShell({ children }: { children: ReactNode }) {
+  const { user, logout, canAccess } = useAuth();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+
+  const nav = NAV.filter((n) => canAccess(n.to));
+  const initials = (user?.name ?? "")
+    .split(" ")
+    .map((w) => w[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+
+  const blocked = !canAccess(pathname);
+
   return (
     <div className="min-h-screen">
       <header className="sticky top-0 z-50 glass border-b">
         <div className="mx-auto flex h-16 max-w-[1600px] items-center gap-6 px-6">
-          <Link to="/" className="flex items-center gap-3">
+          <Link to={user?.role === "worker" ? "/orders" : "/"} className="flex items-center gap-3">
             <div className="grid h-9 w-9 place-items-center rounded-xl gold-gradient font-display text-lg font-bold text-primary-foreground shadow-[var(--shadow-glow)]">
               U
             </div>
@@ -36,7 +50,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           </Link>
 
           <nav className="hide-scroll ml-2 flex flex-1 items-center gap-1 overflow-x-auto scrollbar-thin">
-            {NAV.map((n) => (
+            {nav.map((n) => (
               <Link
                 key={n.to}
                 to={n.to}
@@ -69,17 +83,46 @@ export function AppShell({ children }: { children: ReactNode }) {
               <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-primary" />
             </button>
             <div className="flex items-center gap-2 rounded-lg border border-border py-1 pl-1 pr-3">
-              <div className="grid h-7 w-7 place-items-center rounded-md gold-gradient text-xs font-bold text-primary-foreground">RS</div>
+              <div className="grid h-7 w-7 place-items-center rounded-md gold-gradient text-xs font-bold text-primary-foreground">{initials || "U"}</div>
               <div className="leading-tight">
-                <div className="text-xs font-medium">Rohan Shah</div>
-                <div className="text-[10px] text-muted-foreground">Owner</div>
+                <div className="text-xs font-medium">{user?.name}</div>
+                <div className="text-[10px] capitalize text-muted-foreground">{user?.role}</div>
               </div>
             </div>
+            <button
+              onClick={logout}
+              title="Sign out"
+              className="grid h-9 w-9 place-items-center rounded-lg border border-border text-muted-foreground transition-colors hover:text-foreground"
+            >
+              <LogOut className="h-4 w-4" />
+            </button>
           </div>
         </div>
       </header>
 
-      <main className="mx-auto max-w-[1600px] px-6 py-8">{children}</main>
+      <main className="mx-auto max-w-[1600px] px-6 py-8">
+        {blocked ? <AccessDenied /> : children}
+      </main>
+    </div>
+  );
+}
+
+function AccessDenied() {
+  return (
+    <div className="mx-auto mt-20 max-w-md rounded-2xl border border-border bg-card p-10 text-center">
+      <div className="mx-auto grid h-12 w-12 place-items-center rounded-xl bg-destructive/10 text-destructive">
+        <ShieldAlert className="h-6 w-6" />
+      </div>
+      <h2 className="mt-4 text-lg font-semibold">Restricted area</h2>
+      <p className="mt-2 text-sm text-muted-foreground">
+        Your account doesn't have permission to view this page. Please use the menu to navigate.
+      </p>
+      <Link
+        to="/orders"
+        className="mt-6 inline-flex rounded-lg gold-gradient px-4 py-2 text-sm font-semibold text-primary-foreground"
+      >
+        Go to Orders
+      </Link>
     </div>
   );
 }
