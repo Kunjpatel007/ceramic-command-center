@@ -127,10 +127,21 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AppShell>
-        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-        <Outlet />
-      </AppShell>
+      <AuthProvider>
+        <AuthGate>
+          <AppShell>
+            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+            <Outlet />
+          </AppShell>
+        </AuthGate>
+      </AuthProvider>
     </QueryClientProvider>
   );
+}
+
+function AuthGate({ children }: { children: ReactNode }) {
+  const { user, ready } = useAuth();
+  if (!ready) return null;
+  if (!user) return <LoginScreen />;
+  return <>{children}</>;
 }
