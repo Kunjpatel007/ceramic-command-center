@@ -208,6 +208,8 @@ function NewOrderModal({
   onClose: () => void;
 }) {
   const [customer, setCustomer] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [address, setAddress] = useState("");
   const [lines, setLines] = useState<NewOrderItem[]>([{ productId: products[0]?.id ?? "", qtyBoxes: 0 }]);
   const [created, setCreated] = useState<{ orderId: string; invoiceId: string } | null>(null);
 
@@ -222,8 +224,11 @@ function NewOrderModal({
 
   function submit() {
     const picks = lines.filter((l) => l.productId && l.qtyBoxes > 0);
-    if (!customer.trim() || picks.length === 0) return;
-    const { order, invoice } = createOrder(customer.trim(), picks);
+    if (!customer.trim() || !mobile.trim() || picks.length === 0) return;
+    const { order, invoice } = createOrder(customer.trim(), picks, {
+      mobile: mobile.trim(),
+      address: address.trim(),
+    });
     setCreated({ orderId: order.id, invoiceId: invoice.id });
   }
 
@@ -269,6 +274,32 @@ function NewOrderModal({
                 className="w-full rounded-lg border border-border bg-secondary/40 px-3 py-2 text-sm outline-none focus:border-primary/50"
               />
             </div>
+
+            <div>
+              <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Mobile No</label>
+              <input
+                value={mobile}
+                onChange={(e) => setMobile(e.target.value)}
+                type="tel"
+                inputMode="tel"
+                maxLength={20}
+                placeholder="+91 98765 43210"
+                className="w-full rounded-lg border border-border bg-secondary/40 px-3 py-2 text-sm outline-none focus:border-primary/50"
+              />
+            </div>
+
+            <div>
+              <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Address</label>
+              <textarea
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                rows={2}
+                maxLength={300}
+                placeholder="Delivery address"
+                className="w-full resize-none rounded-lg border border-border bg-secondary/40 px-3 py-2 text-sm outline-none focus:border-primary/50"
+              />
+            </div>
+
 
             <div className="space-y-2">
               <label className="block text-xs uppercase tracking-wider text-muted-foreground">Tiles</label>
@@ -316,7 +347,7 @@ function NewOrderModal({
 
             <button
               onClick={submit}
-              disabled={!customer.trim() || total === 0}
+              disabled={!customer.trim() || !mobile.trim() || total === 0}
               className="w-full rounded-xl gold-gradient px-4 py-2.5 font-semibold text-primary-foreground disabled:opacity-40"
             >
               Create order & generate invoice

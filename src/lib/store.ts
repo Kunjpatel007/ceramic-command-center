@@ -70,7 +70,11 @@ export interface NewOrderItem {
 let orderSeq = seedOrders.length;
 let invoiceSeq = seedOrders.length;
 
-export function createOrder(customer: string, picks: NewOrderItem[]) {
+export function createOrder(
+  customer: string,
+  picks: NewOrderItem[],
+  details?: { mobile?: string; address?: string },
+) {
   orderSeq += 1;
   invoiceSeq += 1;
   const id = `ORD-${2400 + orderSeq}`;
@@ -81,7 +85,7 @@ export function createOrder(customer: string, picks: NewOrderItem[]) {
     return { product: product.name, qtyBoxes: pick.qtyBoxes, delivered: 0, rate: product.price };
   });
   const total = items.reduce((s, i) => s + i.qtyBoxes * i.rate, 0);
-  const order: Order = { id, customer, date, items, total, status: "Pending" };
+  const order: Order = { id, customer, mobile: details?.mobile, address: details?.address, date, items, total, status: "Pending" };
 
   // 1. deduct stock from inventory
   const products = state.products.map((p) => {
