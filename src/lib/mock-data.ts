@@ -38,6 +38,8 @@ export interface OrderItem {
 export interface Order {
   id: string;
   customer: string;
+  mobile?: string;
+  address?: string;
   date: string;
   items: OrderItem[];
   total: number;
