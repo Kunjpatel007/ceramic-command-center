@@ -357,5 +357,6 @@ function NewOrderModal({
         )}
       </div>
     </motion.div>
+  </motion.div>
   );
 }
