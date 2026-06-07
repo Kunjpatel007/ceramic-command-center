@@ -245,26 +245,27 @@ function NewOrderModal({
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.96, y: 10 }}
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-lg rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-glow)]"
+        className="flex w-full max-w-lg max-h-[85vh] flex-col rounded-2xl border border-border bg-card shadow-[var(--shadow-glow)]"
       >
-        <div className="mb-4 flex items-center justify-between">
+        <div className="flex items-center justify-between px-6 pt-6 pb-4 shrink-0">
           <h2 className="font-display text-lg font-semibold">Create New Order</h2>
           <button onClick={onClose} className="text-muted-foreground hover:text-foreground"><X className="h-5 w-5" /></button>
         </div>
 
-        {created ? (
-          <div className="space-y-4 text-sm">
-            <div className="rounded-xl border border-success/30 bg-success/10 p-4 text-success">
-              <div className="flex items-center gap-2 font-medium"><Check className="h-4 w-4" /> Order {created.orderId} created</div>
-              <ul className="mt-2 list-disc pl-5 text-foreground/80">
-                <li>Invoice <span className="font-medium">{created.invoiceId}</span> auto-generated</li>
-                <li>Inventory stock deducted automatically</li>
-              </ul>
+        <div className="flex-1 overflow-y-auto px-6 pb-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          {created ? (
+            <div className="space-y-4 text-sm">
+              <div className="rounded-xl border border-success/30 bg-success/10 p-4 text-success">
+                <div className="flex items-center gap-2 font-medium"><Check className="h-4 w-4" /> Order {created.orderId} created</div>
+                <ul className="mt-2 list-disc pl-5 text-foreground/80">
+                  <li>Invoice <span className="font-medium">{created.invoiceId}</span> auto-generated</li>
+                  <li>Inventory stock deducted automatically</li>
+                </ul>
+              </div>
+              <button onClick={onClose} className="w-full rounded-xl gold-gradient px-4 py-2.5 font-semibold text-primary-foreground">Done</button>
             </div>
-            <button onClick={onClose} className="w-full rounded-xl gold-gradient px-4 py-2.5 font-semibold text-primary-foreground">Done</button>
-          </div>
-        ) : (
-          <div className="space-y-4">
+          ) : (
+            <div className="space-y-4">
             <div>
               <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Customer</label>
               <input
