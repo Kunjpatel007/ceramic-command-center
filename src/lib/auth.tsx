@@ -50,7 +50,7 @@ const STORAGE_KEY = "showroom_auth_user";
 interface AuthContextValue {
   user: User | null;
   ready: boolean;
-  login: (id: string, pass: string) => { ok: boolean; error?: string };
+  login: (id: string, pass: string) => { ok: boolean; error?: string; role?: Role };
   logout: () => void;
   canAccess: (path: string) => boolean;
 }
