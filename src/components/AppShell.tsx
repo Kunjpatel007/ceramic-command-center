@@ -2,11 +2,12 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "motion/react";
 import {
   LayoutDashboard, ShoppingCart, Users, Boxes, BookImage, FileText,
-  Truck, BarChart3, Sparkles, Settings, Calculator, Bell, Search, LogOut, ShieldAlert,
+  Truck, BarChart3, Sparkles, Settings, Calculator, LogOut, ShieldAlert,
   Menu, X,
 } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { useAuth } from "../lib/auth";
+import { GlobalSearch, Notifications } from "./NavbarTools";
 
 const NAV = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard },
