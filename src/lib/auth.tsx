@@ -31,7 +31,7 @@ export const WORKER_ROUTES = [
 // Default landing per role
 export const HOME_FOR_ROLE: Record<Role, string> = {
   owner: "/",
-  worker: "/orders",
+  worker: "/catalog",
 };
 
 interface Credential {
