@@ -80,13 +80,8 @@ export function AppShell({ children }: { children: ReactNode }) {
           </nav>
 
           <div className="ml-auto flex items-center gap-2 sm:gap-3">
-            <button className="hidden h-9 w-9 place-items-center rounded-lg border border-border text-muted-foreground transition-colors hover:text-foreground sm:grid">
-              <Search className="h-4 w-4" />
-            </button>
-            <button className="relative hidden h-9 w-9 place-items-center rounded-lg border border-border text-muted-foreground transition-colors hover:text-foreground sm:grid">
-              <Bell className="h-4 w-4" />
-              <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-primary" />
-            </button>
+            <GlobalSearch />
+            <Notifications />
             <div className="flex items-center gap-2 rounded-lg border border-border py-1 pl-1 pr-1 sm:pr-3">
               <div className="grid h-7 w-7 place-items-center rounded-md gold-gradient text-xs font-bold text-primary-foreground">{initials || "U"}</div>
               <div className="hidden leading-tight sm:block">
