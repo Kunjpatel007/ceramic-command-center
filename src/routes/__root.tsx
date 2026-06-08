@@ -10,6 +10,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import showroomBg from "../assets/showroom-bg.png.asset.json";
 import { AppShell } from "../components/AppShell";
 import { LoginScreen } from "../components/LoginScreen";
 import { AuthProvider, useAuth } from "../lib/auth";
@@ -127,6 +128,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <AppBackground />
       <AuthProvider>
         <AuthGate>
           <AppShell>
@@ -136,6 +138,26 @@ function RootComponent() {
         </AuthGate>
       </AuthProvider>
     </QueryClientProvider>
+  );
+}
+
+function AppBackground() {
+  return (
+    <div aria-hidden className="app-bg pointer-events-none fixed inset-0 -z-10">
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${showroomBg.url})` }}
+      />
+      {/* Dark + gold tint overlay keeps content readable */}
+      <div className="absolute inset-0 bg-background/85 backdrop-blur-[2px]" />
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage:
+            "radial-gradient(1000px circle at 12% -10%, oklch(0.78 0.15 65 / 12%), transparent 55%), radial-gradient(1000px circle at 100% 0%, oklch(0.82 0.13 78 / 10%), transparent 50%)",
+        }}
+      />
+    </div>
   );
 }
 

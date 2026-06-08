@@ -126,10 +126,10 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
-    background-image:
-      radial-gradient(900px circle at 12% -10%, oklch(0.78 0.15 65 / 8%), transparent 55%),
-      radial-gradient(900px circle at 100% 0%, oklch(0.82 0.13 78 / 6%), transparent 50%);
-    background-attachment: fixed;
+  }
+
+  body:has(.app-bg) {
+    background-color: transparent;
   }
 
   h1, h2, h3, h4, .font-display {
