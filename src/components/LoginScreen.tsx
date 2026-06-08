@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { Lock, User as UserIcon } from "lucide-react";
-import { useAuth } from "../lib/auth";
+import { useAuth, HOME_FOR_ROLE } from "../lib/auth";
 
 export function LoginScreen() {
   const { login } = useAuth();
+  const navigate = useNavigate();
   const [id, setId] = useState("");
   const [pass, setPass] = useState("");
   const [error, setError] = useState("");
@@ -12,7 +14,11 @@ export function LoginScreen() {
   function submit(e: React.FormEvent) {
     e.preventDefault();
     const res = login(id, pass);
-    if (!res.ok) setError(res.error ?? "Login failed");
+    if (!res.ok) {
+      setError(res.error ?? "Login failed");
+      return;
+    }
+    if (res.role) navigate({ to: HOME_FOR_ROLE[res.role] });
   }
 
   return (

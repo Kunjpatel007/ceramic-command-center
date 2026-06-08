@@ -31,7 +31,7 @@ export const WORKER_ROUTES = [
 // Default landing per role
 export const HOME_FOR_ROLE: Record<Role, string> = {
   owner: "/",
-  worker: "/orders",
+  worker: "/catalog",
 };
 
 interface Credential {
@@ -50,7 +50,7 @@ const STORAGE_KEY = "showroom_auth_user";
 interface AuthContextValue {
   user: User | null;
   ready: boolean;
-  login: (id: string, pass: string) => { ok: boolean; error?: string };
+  login: (id: string, pass: string) => { ok: boolean; error?: string; role?: Role };
   logout: () => void;
   canAccess: (path: string) => boolean;
 }
@@ -82,7 +82,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } catch {
       // ignore
     }
-    return { ok: true };
+    return { ok: true, role: match.user.role };
   }, []);
 
   const logout = useCallback(() => {
