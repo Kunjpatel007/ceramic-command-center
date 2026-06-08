@@ -143,7 +143,7 @@ function RootComponent() {
 
 function AppBackground() {
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
+    <div aria-hidden className="app-bg pointer-events-none fixed inset-0 -z-10">
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${showroomBg.url})` }}
