@@ -82,7 +82,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } catch {
       // ignore
     }
-    return { ok: true };
+    return { ok: true, role: match.user.role };
   }, []);
 
   const logout = useCallback(() => {
