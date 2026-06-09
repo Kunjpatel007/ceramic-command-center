@@ -20,6 +20,7 @@ import { Route as CatalogRouteImport } from './routes/catalog'
 import { Route as CalculatorRouteImport } from './routes/calculator'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CatalogProductIdRouteImport } from './routes/catalog.$productId'
 
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
@@ -76,12 +77,17 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CatalogProductIdRoute = CatalogProductIdRouteImport.update({
+  id: '/$productId',
+  path: '/$productId',
+  getParentRoute: () => CatalogRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/calculator': typeof CalculatorRoute
-  '/catalog': typeof CatalogRoute
+  '/catalog': typeof CatalogRouteWithChildren
   '/copilot': typeof CopilotRoute
   '/customers': typeof CustomersRoute
   '/deliveries': typeof DeliveriesRoute
@@ -89,12 +95,13 @@ export interface FileRoutesByFullPath {
   '/invoices': typeof InvoicesRoute
   '/orders': typeof OrdersRoute
   '/settings': typeof SettingsRoute
+  '/catalog/$productId': typeof CatalogProductIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/calculator': typeof CalculatorRoute
-  '/catalog': typeof CatalogRoute
+  '/catalog': typeof CatalogRouteWithChildren
   '/copilot': typeof CopilotRoute
   '/customers': typeof CustomersRoute
   '/deliveries': typeof DeliveriesRoute
@@ -102,13 +109,14 @@ export interface FileRoutesByTo {
   '/invoices': typeof InvoicesRoute
   '/orders': typeof OrdersRoute
   '/settings': typeof SettingsRoute
+  '/catalog/$productId': typeof CatalogProductIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/calculator': typeof CalculatorRoute
-  '/catalog': typeof CatalogRoute
+  '/catalog': typeof CatalogRouteWithChildren
   '/copilot': typeof CopilotRoute
   '/customers': typeof CustomersRoute
   '/deliveries': typeof DeliveriesRoute
@@ -116,6 +124,7 @@ export interface FileRoutesById {
   '/invoices': typeof InvoicesRoute
   '/orders': typeof OrdersRoute
   '/settings': typeof SettingsRoute
+  '/catalog/$productId': typeof CatalogProductIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -131,6 +140,7 @@ export interface FileRouteTypes {
     | '/invoices'
     | '/orders'
     | '/settings'
+    | '/catalog/$productId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -144,6 +154,7 @@ export interface FileRouteTypes {
     | '/invoices'
     | '/orders'
     | '/settings'
+    | '/catalog/$productId'
   id:
     | '__root__'
     | '/'
@@ -157,13 +168,14 @@ export interface FileRouteTypes {
     | '/invoices'
     | '/orders'
     | '/settings'
+    | '/catalog/$productId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnalyticsRoute: typeof AnalyticsRoute
   CalculatorRoute: typeof CalculatorRoute
-  CatalogRoute: typeof CatalogRoute
+  CatalogRoute: typeof CatalogRouteWithChildren
   CopilotRoute: typeof CopilotRoute
   CustomersRoute: typeof CustomersRoute
   DeliveriesRoute: typeof DeliveriesRoute
@@ -252,14 +264,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/catalog/$productId': {
+      id: '/catalog/$productId'
+      path: '/$productId'
+      fullPath: '/catalog/$productId'
+      preLoaderRoute: typeof CatalogProductIdRouteImport
+      parentRoute: typeof CatalogRoute
+    }
   }
 }
+
+interface CatalogRouteChildren {
+  CatalogProductIdRoute: typeof CatalogProductIdRoute
+}
+
+const CatalogRouteChildren: CatalogRouteChildren = {
+  CatalogProductIdRoute: CatalogProductIdRoute,
+}
+
+const CatalogRouteWithChildren =
+  CatalogRoute._addFileChildren(CatalogRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnalyticsRoute: AnalyticsRoute,
   CalculatorRoute: CalculatorRoute,
-  CatalogRoute: CatalogRoute,
+  CatalogRoute: CatalogRouteWithChildren,
   CopilotRoute: CopilotRoute,
   CustomersRoute: CustomersRoute,
   DeliveriesRoute: DeliveriesRoute,

@@ -191,7 +191,7 @@ export function Notifications() {
           }),
         );
     }
-    if (canAccess("/orders") || canAccess("/deliveries")) {
+    if (canAccess("/orders")) {
       orders
         .filter((o) => o.status === "Pending")
         .forEach((o) =>
@@ -199,7 +199,7 @@ export function Notifications() {
             id: `order-${o.id}`,
             title: `Pending order ${o.id}`,
             sub: `${o.customer} · awaiting dispatch`,
-            to: canAccess("/deliveries") ? "/deliveries" : "/orders",
+            to: "/orders",
             icon: Clock,
             tone: "text-primary",
           }),

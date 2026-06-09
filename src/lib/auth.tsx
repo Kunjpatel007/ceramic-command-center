@@ -23,7 +23,6 @@ export interface User {
 export const WORKER_ROUTES = [
   "/catalog",
   "/orders",
-  "/deliveries",
   "/calculator",
   "/settings",
 ] as const;
