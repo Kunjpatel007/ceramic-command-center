@@ -2,7 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "motion/react";
 import {
   LayoutDashboard, ShoppingCart, Users, Boxes, BookImage, FileText,
-  Truck, BarChart3, Sparkles, Settings, Calculator, LogOut, ShieldAlert,
+  BarChart3, Sparkles, Settings, Calculator, LogOut, ShieldAlert,
   Menu, X,
 } from "lucide-react";
 import { useState, type ReactNode } from "react";
