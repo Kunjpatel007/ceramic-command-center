@@ -43,15 +43,58 @@ function buildInvoice(o: Order, seq: number): Invoice {
   };
 }
 
-let state: State = {
-  products: seedProducts.map((p) => ({ ...p })),
-  orders: seedOrders.map((o) => ({ ...o, items: o.items.map((i) => ({ ...i })) })),
-  invoices: seedOrders.map((o, idx) => buildInvoice(o, idx + 1)),
-};
+const STORAGE_KEY = "showroom-os-state-v1";
+
+interface PersistedState extends State {
+  orderSeq?: number;
+  invoiceSeq?: number;
+}
+
+function loadInitialState(): { state: State; orderSeq: number; invoiceSeq: number } {
+  const fallback: State = {
+    products: seedProducts.map((p) => ({ ...p })),
+    orders: seedOrders.map((o) => ({ ...o, items: o.items.map((i) => ({ ...i })) })),
+    invoices: seedOrders.map((o, idx) => buildInvoice(o, idx + 1)),
+  };
+  if (typeof window !== "undefined") {
+    try {
+      const raw = window.localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw) as PersistedState;
+        if (parsed?.products && parsed?.orders && parsed?.invoices) {
+          return {
+            state: { products: parsed.products, orders: parsed.orders, invoices: parsed.invoices },
+            orderSeq: parsed.orderSeq ?? parsed.orders.length,
+            invoiceSeq: parsed.invoiceSeq ?? parsed.invoices.length,
+          };
+        }
+      }
+    } catch {
+      // ignore corrupt storage
+    }
+  }
+  return { state: fallback, orderSeq: seedOrders.length, invoiceSeq: seedOrders.length };
+}
+
+const __initial = loadInitialState();
+let state: State = __initial.state;
 
 const listeners = new Set<() => void>();
+function persist() {
+  if (typeof window !== "undefined") {
+    try {
+      window.localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ ...state, orderSeq, invoiceSeq }),
+      );
+    } catch {
+      // ignore quota errors
+    }
+  }
+}
 function emit() {
   state = { ...state };
+  persist();
   listeners.forEach((l) => l());
 }
 
@@ -67,8 +110,8 @@ export interface NewOrderItem {
   qtyBoxes: number;
 }
 
-let orderSeq = seedOrders.length;
-let invoiceSeq = seedOrders.length;
+let orderSeq = __initial.orderSeq;
+let invoiceSeq = __initial.invoiceSeq;
 
 export function createOrder(
   customer: string,

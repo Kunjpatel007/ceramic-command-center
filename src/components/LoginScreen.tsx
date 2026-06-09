@@ -3,6 +3,10 @@ import { useNavigate } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { Lock, User as UserIcon } from "lucide-react";
 import { useAuth, HOME_FOR_ROLE } from "../lib/auth";
+import logo from "../assets/universal-ceramics-logo.png.asset.json";
+
+
+
 
 export function LoginScreen() {
   const { login } = useAuth();
@@ -27,17 +31,20 @@ export function LoginScreen() {
         onSubmit={submit}
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-sm rounded-2xl border border-border bg-card p-8 shadow-xl"
+        className="w-full max-w-md rounded-2xl border border-border bg-card p-10 shadow-xl"
       >
         <div className="mb-6 flex flex-col items-center text-center">
-          <div className="grid h-12 w-12 place-items-center rounded-xl gold-gradient font-display text-2xl font-bold text-primary-foreground shadow-[var(--shadow-glow)]">
-            U
-          </div>
-          <h1 className="mt-4 font-display text-lg font-semibold tracking-wide">
-            UNIVERSAL CERAMICS
+          <img
+            src={logo.url}
+            alt="Universal Ceramics"
+            className="mb-4 h-28 w-auto object-contain"
+          />
+          <h1 className="text-3xl font-bold tracking-tight">
+            <span className="text-white">Welcome </span>
+            <span className="gold-text">Back</span>
           </h1>
-          <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-            Showroom OS — Sign in
+          <p className="mt-2 text-sm text-muted-foreground">
+            Sign in to access your showroom system
           </p>
         </div>
 

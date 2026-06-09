@@ -4,6 +4,7 @@ import { Printer, Download, RotateCcw } from "lucide-react";
 import { PageHeader, Panel } from "@/components/ui-bits";
 import { inr } from "@/lib/mock-data";
 import { useStore } from "@/lib/store";
+import logo from "@/assets/universal-ceramics-logo.png.asset.json";
 
 export const Route = createFileRoute("/invoices")({
   head: () => ({ meta: [{ title: "Invoices — Universal Ceramics" }] }),
@@ -47,7 +48,7 @@ function Invoices() {
       <Panel className="mx-auto max-w-3xl bg-white p-10 text-black">
         <div className="flex items-start justify-between border-b-2 border-black pb-6">
           <div className="flex items-center gap-3">
-            <div className="grid h-12 w-12 place-items-center rounded-lg bg-black text-xl font-bold text-white">U</div>
+            <img src={logo.url} alt="Universal Ceramics" className="h-16 w-auto object-contain" />
             <div>
               <div className="font-display text-xl font-bold">UNIVERSAL CERAMICS</div>
               <div className="text-xs text-neutral-600">Premium Tiles & Sanitaryware</div>

@@ -8,6 +8,7 @@ import {
 import { useState, type ReactNode } from "react";
 import { useAuth } from "../lib/auth";
 import { GlobalSearch, Notifications } from "./NavbarTools";
+import logo from "../assets/universal-ceramics-logo.png.asset.json";
 
 const NAV = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard },
@@ -16,7 +17,6 @@ const NAV = [
   { to: "/customers", label: "Customers", icon: Users },
   { to: "/inventory", label: "Inventory", icon: Boxes },
   { to: "/invoices", label: "Invoices", icon: FileText },
-  { to: "/deliveries", label: "Deliveries", icon: Truck },
   { to: "/calculator", label: "Calculator", icon: Calculator },
   { to: "/analytics", label: "Analytics", icon: BarChart3 },
   { to: "/copilot", label: "AI Copilot", icon: Sparkles },
@@ -44,11 +44,12 @@ export function AppShell({ children }: { children: ReactNode }) {
       <header className="sticky top-0 z-50 glass border-b">
         <div className="mx-auto flex h-16 max-w-[1600px] items-center gap-3 px-4 sm:gap-6 sm:px-6">
           <Link to={home} className="flex shrink-0 items-center gap-3">
-            <div className="grid h-9 w-9 place-items-center rounded-xl gold-gradient font-display text-lg font-bold text-primary-foreground shadow-[var(--shadow-glow)]">
-              U
-            </div>
+            <img
+              src={logo.url}
+              alt="Universal Ceramics"
+              className="h-10 w-auto object-contain"
+            />
             <div className="hidden leading-tight sm:block">
-              <div className="font-display text-sm font-semibold tracking-wide">UNIVERSAL CERAMICS</div>
               <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Showroom OS</div>
             </div>
           </Link>
@@ -144,7 +145,21 @@ export function AppShell({ children }: { children: ReactNode }) {
       </header>
 
       <main className="mx-auto max-w-[1600px] px-4 py-6 sm:px-6 sm:py-8">
-        {blocked ? <AccessDenied /> : children}
+        {blocked ? (
+          <AccessDenied />
+        ) : (
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={pathname}
+              initial={{ opacity: 0, y: 12, filter: "blur(6px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -8, filter: "blur(6px)" }}
+              transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            >
+              {children}
+            </motion.div>
+          </AnimatePresence>
+        )}
       </main>
     </div>
   );
