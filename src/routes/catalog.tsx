@@ -55,27 +55,29 @@ function Catalog() {
             whileHover={{ y: -6 }}
             className="panel group overflow-hidden p-0"
           >
-            <div className="relative h-44 overflow-hidden">
-              <img src={p.image} alt={p.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
-              <div className="absolute right-3 top-3 rounded-full bg-background/70 px-2.5 py-1 text-xs backdrop-blur">{p.finish}</div>
-              {p.stock <= 30 && <div className="absolute left-3 top-3 rounded-full bg-destructive/80 px-2.5 py-1 text-xs">Low stock</div>}
-            </div>
-            <div className="p-4">
-              <div className="flex items-start justify-between">
-                <div>
-                  <h3 className="font-display font-semibold">{p.name}</h3>
-                  <div className="text-xs text-muted-foreground">{p.size} · {p.category}</div>
+            <Link to="/catalog/$productId" params={{ productId: p.id }} className="block">
+              <div className="relative h-44 overflow-hidden">
+                <img src={p.image} alt={p.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                <div className="absolute right-3 top-3 rounded-full bg-background/70 px-2.5 py-1 text-xs backdrop-blur">{p.finish}</div>
+                {p.stock <= 30 && <div className="absolute left-3 top-3 rounded-full bg-destructive/80 px-2.5 py-1 text-xs">Low stock</div>}
+              </div>
+              <div className="p-4">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <h3 className="font-display font-semibold">{p.name}</h3>
+                    <div className="text-xs text-muted-foreground">{p.size} · {p.category}</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="font-semibold gold-text">{inr(p.price)}</div>
+                    <div className="text-xs text-muted-foreground">per box</div>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <div className="font-semibold gold-text">{inr(p.price)}</div>
-                  <div className="text-xs text-muted-foreground">per box</div>
+                <div className="mt-3 flex items-center justify-between text-xs text-muted-foreground">
+                  <span>{p.stock} in stock</span>
+                  <span className="rounded-lg border border-border px-3 py-1.5 text-foreground transition-colors group-hover:border-primary/50">View details →</span>
                 </div>
               </div>
-              <div className="mt-3 flex items-center justify-between text-xs text-muted-foreground">
-                <span>{p.stock} in stock</span>
-                <button className="rounded-lg border border-border px-3 py-1.5 text-foreground transition-colors hover:border-primary/50">Room Preview</button>
-              </div>
-            </div>
+            </Link>
           </motion.div>
         ))}
       </div>
