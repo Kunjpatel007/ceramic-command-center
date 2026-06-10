@@ -50,7 +50,8 @@ export function AppShell({ children }: { children: ReactNode }) {
               className="h-10 w-auto object-contain"
             />
             <div className="hidden leading-tight sm:block">
-              <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Showroom OS</div>
+              <div className="text-white"><b>Universal</b></div>
+              <div className="gold-text"><b>Ceramics</b></div>
             </div>
           </Link>
 
