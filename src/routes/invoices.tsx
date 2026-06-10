@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Printer, Download, RotateCcw } from "lucide-react";
+import { Printer, Download, RotateCcw, MapPin, Phone, Mail } from "lucide-react";
 import { PageHeader, Panel } from "@/components/ui-bits";
 import { inr } from "@/lib/mock-data";
 import { useStore } from "@/lib/store";
