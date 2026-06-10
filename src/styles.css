@@ -173,3 +173,17 @@
   .hide-scroll::-webkit-scrollbar { display: none; }
   .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
 }
+
+@media print {
+  body * { visibility: hidden !important; }
+  .invoice-sheet, .invoice-sheet * { visibility: visible !important; }
+  .invoice-sheet {
+    position: absolute !important;
+    left: 0;
+    top: 0;
+    width: 100%;
+    max-width: none !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+  }
+}
