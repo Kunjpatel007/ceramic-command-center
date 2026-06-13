@@ -24,7 +24,7 @@ function Settings() {
         <Panel>
           <div className="mb-4 flex items-center gap-2"><Shield className="h-5 w-5 text-primary" /><h3 className="font-display text-lg font-semibold">Security</h3></div>
           <div className="space-y-3">
-            <Field label="Username" value="rohan.shah" icon={<Users className="h-4 w-4" />} />
+            <Field label="Username" value="admin" icon={<Users className="h-4 w-4" />} />
             <Field label="Password" value="••••••••••" icon={<KeyRound className="h-4 w-4" />} />
             <div className="rounded-xl bg-secondary/40 p-4">
               <div className="mb-2 text-sm text-muted-foreground">4-Digit Security PIN</div>
