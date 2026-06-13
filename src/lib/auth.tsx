@@ -62,7 +62,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
+      // Clean up legacy localStorage key if present
+      localStorage.removeItem(STORAGE_KEY);
+      
+      const raw = sessionStorage.getItem(STORAGE_KEY);
       if (raw) setUser(JSON.parse(raw));
     } catch {
       // ignore
@@ -77,7 +80,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!match) return { ok: false, error: "Invalid ID or password" };
     setUser(match.user);
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(match.user));
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(match.user));
     } catch {
       // ignore
     }
@@ -87,7 +90,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = useCallback(() => {
     setUser(null);
     try {
-      localStorage.removeItem(STORAGE_KEY);
+      sessionStorage.removeItem(STORAGE_KEY);
     } catch {
       // ignore
     }
