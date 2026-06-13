@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { Sparkles, Send } from "lucide-react";
 import { PageHeader, Panel } from "@/components/ui-bits";
 import { orders, products, customers, inr } from "@/lib/mock-data";
+import { useAuth } from "@/lib/auth";
 
 export const Route = createFileRoute("/copilot")({
   head: () => ({ meta: [{ title: "AI Copilot — Universal Ceramics" }] }),
