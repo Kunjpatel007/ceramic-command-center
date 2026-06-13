@@ -10,6 +10,7 @@ import { StatCard, Panel, StatusBadge, Progress } from "@/components/ui-bits";
 import {
   orders, products, activities, staff, revenueTrend, inr, orderProgress,
 } from "@/lib/mock-data";
+import { useAuth } from "@/lib/auth";
 
 export const Route = createFileRoute("/")({
   head: () => ({
