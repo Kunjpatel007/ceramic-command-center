@@ -62,6 +62,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
+      // Clean up legacy localStorage key if present
+      localStorage.removeItem(STORAGE_KEY);
+      
       const raw = sessionStorage.getItem(STORAGE_KEY);
       if (raw) setUser(JSON.parse(raw));
     } catch {
