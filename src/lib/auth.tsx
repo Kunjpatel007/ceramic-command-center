@@ -40,7 +40,7 @@ interface Credential {
 }
 
 const CREDENTIALS: Credential[] = [
-  { id: "owner", pass: "owner@123", user: { name: "Rohan Shah", role: "owner" } },
+  { id: "owner", pass: "owner@123", user: { name: "Admin", role: "owner" } },
   { id: "worker", pass: "worker@123", user: { name: "Showroom Staff", role: "worker" } },
 ];
 
