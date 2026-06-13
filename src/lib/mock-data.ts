@@ -108,14 +108,14 @@ export const activities = [
   { who: "Arjun (Worker)", what: "marked 30 boxes delivered for ORD-2401", when: "9 min ago" },
   { who: "System", what: "Low stock alert: Premium Grey", when: "14 min ago" },
   { who: "Kavya (Accountant)", what: "recorded payment ₹1,20,000", when: "31 min ago" },
-  { who: "Rohan (Owner)", what: "created order ORD-2402", when: "1 hr ago" },
+  { who: "Admin (Owner)", what: "created order ORD-2402", when: "1 hr ago" },
 ];
 
 export const staff = [
   { name: "Priya Nair", role: "Manager", orders: 42, status: "Active" },
   { name: "Arjun Rao", role: "Worker", orders: 0, status: "Active" },
   { name: "Kavya Iyer", role: "Accountant", orders: 0, status: "Idle" },
-  { name: "Rohan Shah", role: "Owner", orders: 18, status: "Active" },
+  { name: "Admin", role: "Owner", orders: 18, status: "Active" },
 ];
 
 export function orderProgress(o: Order) {
