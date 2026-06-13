@@ -23,6 +23,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Dashboard() {
+  const { user } = useAuth();
   const pending = orders.filter((o) => o.status === "Pending").length;
   const partial = orders.filter((o) => o.status === "Partially Delivered").length;
   const delivered = orders.filter((o) => o.status === "Delivered").length;
@@ -34,7 +35,7 @@ function Dashboard() {
       <div className="mb-8 flex flex-wrap items-end justify-between gap-3">
         <div>
           <p className="text-xs uppercase tracking-[0.25em] text-primary">Executive Command Center</p>
-          <h1 className="mt-1 font-display text-3xl font-semibold">Good evening, Rohan</h1>
+          <h1 className="mt-1 font-display text-3xl font-semibold">Good evening, {user?.name || "Admin"}</h1>
         </div>
         <div className="flex items-center gap-2 rounded-full border border-success/30 bg-success/10 px-3 py-1 text-xs text-success">
           <span className="h-2 w-2 animate-pulse rounded-full bg-success" /> Live sync active
