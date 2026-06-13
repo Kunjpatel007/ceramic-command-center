@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { Sparkles, Send } from "lucide-react";
 import { PageHeader, Panel } from "@/components/ui-bits";
 import { orders, products, customers, inr } from "@/lib/mock-data";
+import { useAuth } from "@/lib/auth";
 
 export const Route = createFileRoute("/copilot")({
   head: () => ({ meta: [{ title: "AI Copilot — Universal Ceramics" }] }),
@@ -43,8 +44,10 @@ function answer(q: string): string {
 interface Msg { role: "user" | "ai"; text: string }
 
 function Copilot() {
+  const { user } = useAuth();
+  const userName = user?.name || "Admin";
   const [msgs, setMsgs] = useState<Msg[]>([
-    { role: "ai", text: "Hello Rohan — I'm your AI Business Copilot, connected to live showroom data. Ask me anything." },
+    { role: "ai", text: `Hello ${userName} — I'm your AI Business Copilot, connected to live showroom data. Ask me anything.` },
   ]);
   const [input, setInput] = useState("");
 
